@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Music Files</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Raleway:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            font-family: 'Lobster', cursive;
+            font-size: 3em;
+            color: #ffcc00;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px #000000;
+        }
+        h2 {
+            font-family: 'Lobster', cursive;
+            font-size: 2em;
+            color: #ffcc00;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px #000000;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        label {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            margin-right: 10px;
+        }
+        label:hover {
+            background-color: #0056b3;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: rgba(0, 0, 0, 0.5);
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s;
+        }
+        li:hover {
+            transform: scale(1.05);
+        }
+        a {
+            text-decoration: none;
+            color: #ffcc00;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px #000000;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        audio {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload a Music File</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="file">Choose file</label>
+        <input type="file" id="file" name="file" onchange="this.form.submit()">
+        <button type="submit">Upload</button>
+    </form>
+
+    <h2>Files:</h2>
+    <ul>
+        {% for file in files %}
+            <li>
+                <a href="/uploads/{{ file }}" onclick="playMusic('/uploads/{{ file }}'); return false;">{{ file }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <audio id="audioPlayer" controls>
+        <source id="audioSource" src="" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        function playMusic(src) {
+            const audioPlayer = document.getElementById('audioPlayer');
+            const audioSource = document.getElementById('audioSource');
+            audioSource.src = src;
+            audioPlayer.load();
+            audioPlayer.play();
+        }
+    </script>
+</body>
+</html>
